@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask Demo</title>
+</head>
+<body>
+    <!-- Submitting data can be done by forms. Each time the button is pressed, the whole form of data will be submitted at once in the format of a json file. --> 
+    <h1>Form 1</h1>
+    <form id="form1" method="post" enctype="multipart/form-data">
+        <input type="text" name="text1_1" placeholder="Text 1">
+        <input type="text" name="text1_2" placeholder="Text 2">
+        <input type="file" name="file1">
+        <div>
+            <input type="radio" name="radio1" value="option1_1"> Option 1.1
+            <input type="radio" name="radio1" value="option1_2"> Option 1.2
+        </div>
+        <div>
+            <input type="radio" name="radio2" value="option2_1"> Option 2.1
+            <input type="radio" name="radio2" value="option2_2"> Option 2.2
+        </div>
+        <button type="submit">Submit Form 1</button>
+    </form>
+    <!-- Data across different forms are seperated and will not be submitted at the same time -->
+    <h1>Form 2</h1>
+    <form id="form2" method="post" enctype="multipart/form-data">
+        <input type="text" name="text2_1" placeholder="Text 1">
+        <input type="text" name="text2_2" placeholder="Text 2">
+        <input type="file" name="file2">
+        <div>
+            <input type="radio" name="radio3" value="option3_1"> Option 3.1
+            <input type="radio" name="radio3" value="option3_2"> Option 3.2
+        </div>
+        <div>
+            <input type="radio" name="radio4" value="option4_1"> Option 4.1
+            <input type="radio" name="radio4" value="option4_2"> Option 4.2
+        </div>
+        <button type="submit">Submit Form 2</button>
+    </form>
+
+
+    <h1 id="showText">Waiting for random string...</h1>
+
+  <script>
+    function sendPostRequest() {
+        // A function to request a string, then show the string in the header
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/request_text", true);
+        // Opens a POST request to /request_text
+        xhr.setRequestHeader("Content-Type", "application/json");
+        // Set the header's content type to a json
+        xhr.onreadystatechange = function() {
+            
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            // When request is done and answer is 200
+            var response = JSON.parse(xhr.responseText);
+            // Decode the received json
+            document.getElementById("showText").innerHTML = response.showText;
+            // Change the content inside the h1 header
+        }
+        };
+        xhr.send();
+        // Send and execute this
+    }
+
+    setInterval(sendPostRequest, 100);
+    // Send a POST request every 100 ms
+  </script>
+</body>
+</html>
